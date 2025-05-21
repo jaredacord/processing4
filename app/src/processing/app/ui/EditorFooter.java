@@ -44,6 +44,7 @@ import javax.swing.*;
 import processing.app.Base;
 import processing.app.Mode;
 import processing.app.Sketch;
+import processing.app.Preferences;
 import processing.app.contrib.ContributionManager;
 import processing.data.StringDict;
 
@@ -93,6 +94,7 @@ public class EditorFooter extends Box {
   Controller controller;
 
   JLabel version;
+  JLabel caretPositionLabel;
 
   int updateCount;
 
@@ -129,6 +131,12 @@ public class EditorFooter extends Box {
       }
     });
 
+    caretPositionLabel = new JLabel("Line: 1, Col: 1");
+    caretPositionLabel.setFont(font);
+    caretPositionLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, Editor.RIGHT_GUTTER));
+
+    tabBar.add(Box.createHorizontalGlue());
+    tabBar.add(caretPositionLabel);
     tabBar.add(version);
 
     add(tabBar);
@@ -185,6 +193,14 @@ public class EditorFooter extends Box {
     repaint();
   }
 
+  public void updateCaretPosition(int line, int column) {
+    caretPositionLabel.setText(String.format("Line: %d, Col: %d", line + 1, column + 1));
+  }
+
+  public void updateCaretVisibility(){ //added
+    caretPositionLabel.setVisible(Preferences.getBoolean("pdex.display.caret"));
+  }
+
 
   public void updateTheme() {
     textColor[SELECTED] = Theme.getColor("footer.text.selected.color");
@@ -204,6 +220,8 @@ public class EditorFooter extends Box {
     for (Tab tab : tabs) {
       tab.updateTheme();
     }
+
+    updateCaretVisibility();
 
     // replace colors for the "updates" indicator
     controller.updateTheme();

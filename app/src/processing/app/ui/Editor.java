@@ -389,6 +389,11 @@ public abstract class Editor extends JFrame implements RunnerListener {
     return ef;
   }
 
+  public void updateCaretPosition(int line, int column) {
+    if (footer != null) {
+      footer.updateCaretPosition(line, column);
+    }
+  }
 
   public void addErrorTable(EditorFooter ef) {
     JScrollPane scrollPane = new JScrollPane();

@@ -211,6 +211,7 @@ public class JavaMode extends Mode {
   static volatile boolean codeCompletionsEnabled = true;
   static volatile boolean ccTriggerEnabled = false;
   static volatile boolean importSuggestEnabled = true;
+  static volatile boolean displayCaretEnabled = false;
   static volatile boolean inspectModeHotkeyEnabled = true;
 
   static public int autoSaveInterval = 3; //in minutes
@@ -227,6 +228,7 @@ public class JavaMode extends Mode {
   static public final String COMPLETION_PREF = "pdex.completion";
   static public final String COMPLETION_TRIGGER_PREF = "pdex.completion.trigger";
   static public final String SUGGEST_IMPORTS_PREF = "pdex.suggest.imports";
+  static public final String DISPLAY_CARET_POS = "pdex.display.caret";
   static public final String INSPECT_MODE_HOTKEY_PREF = "pdex.inspectMode.hotkey";
 
   /**
@@ -269,6 +271,7 @@ public class JavaMode extends Mode {
 
     codeCompletionsEnabled = Preferences.getBoolean(COMPLETION_PREF);
     ccTriggerEnabled = Preferences.getBoolean(COMPLETION_TRIGGER_PREF);
+    displayCaretEnabled = Preferences.getBoolean(DISPLAY_CARET_POS);
     importSuggestEnabled = Preferences.getBoolean(SUGGEST_IMPORTS_PREF);
     inspectModeHotkeyEnabled = Preferences.getBoolean(INSPECT_MODE_HOTKEY_PREF);
   }
@@ -288,6 +291,7 @@ public class JavaMode extends Mode {
 
     Preferences.setBoolean(COMPLETION_PREF, codeCompletionsEnabled);
     Preferences.setBoolean(COMPLETION_TRIGGER_PREF, ccTriggerEnabled);
+    Preferences.setBoolean(DISPLAY_CARET_POS, displayCaretEnabled);
     Preferences.setBoolean(SUGGEST_IMPORTS_PREF, importSuggestEnabled);
     Preferences.setBoolean(INSPECT_MODE_HOTKEY_PREF, inspectModeHotkeyEnabled);
   }

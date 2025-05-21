@@ -77,6 +77,7 @@ public class PreferencesFrame {
   JCheckBox warningsCheckerBox;
   JCheckBox codeCompletionBox;
   JCheckBox importSuggestionsBox;
+  JCheckBox displayCaretLocation;
 
   JComboBox<String> zoomSelectionBox;
   JCheckBox zoomAutoBox;
@@ -396,6 +397,11 @@ public class PreferencesFrame {
     importSuggestionsBox =
       new JCheckBox(Language.text("preferences.suggest_imports"));
 
+    // [ ] Display caret location - PDE X
+
+    displayCaretLocation =
+            new JCheckBox(Language.text("preferences.caret_location"));
+
 
     // [ ] Increase maximum available memory to [______] MB
 
@@ -545,6 +551,7 @@ public class PreferencesFrame {
 
     addRow(codingPanel, errorCheckerBox, warningsCheckerBox);
     addRow(codingPanel, codeCompletionBox, importSuggestionsBox);
+    addRow(codingPanel, displayCaretLocation);
 
     axis.add(codingPanel);
 
@@ -826,6 +833,7 @@ public class PreferencesFrame {
     Preferences.setBoolean("pdex.warningsEnabled", warningsCheckerBox.isSelected());
     Preferences.setBoolean("pdex.completion", codeCompletionBox.isSelected());
     Preferences.setBoolean("pdex.suggest.imports", importSuggestionsBox.isSelected());
+    Preferences.setBoolean("pdex.display.caret", displayCaretLocation.isSelected());
 
     for (Editor editor : base.getEditors()) {
       editor.applyPreferences();
@@ -844,6 +852,7 @@ public class PreferencesFrame {
     warningsCheckerBox.setEnabled(errorCheckerBox.isSelected());
     codeCompletionBox.setSelected(Preferences.getBoolean("pdex.completion"));
     importSuggestionsBox.setSelected(Preferences.getBoolean("pdex.suggest.imports"));
+    displayCaretLocation.setSelected(Preferences.getBoolean("pdex.display.caret"));
 //    deletePreviousBox.setSelected(Preferences.getBoolean("export.delete_target_folder")); //$NON-NLS-1$
 
     sketchbookLocationField.setText(Preferences.getSketchbookPath());

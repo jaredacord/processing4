@@ -305,5 +305,7 @@ pdex.completion = false
 pdex.completion.trigger = false
 # Suggest libraries to import when a class is undefined/unavailable
 pdex.suggest.imports = true
+# Display caret position at bottom right
+pdex.display.caret = false
 # Set to false to disable ctrl/cmd-click jump to definition
 pdex.inspectMode.hotkey = true

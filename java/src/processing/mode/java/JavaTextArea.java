@@ -52,6 +52,15 @@ public class JavaTextArea extends PdeTextArea {
   public JavaTextArea(TextAreaDefaults defaults, JavaEditor editor) {
     super(defaults, new JavaInputHandler(editor), editor);
 
+    addCaretListener(e -> {
+      int line = getCaretLine();
+      int caretPos = getCaretPosition();
+      int lineStart = getLineStartOffset(line);
+      int column = caretPos - lineStart;
+
+      editor.updateCaretPosition(line, column);
+    });
+
     suggestionGenerator = new CompletionGenerator((JavaMode) editor.getMode());
     tweakMode = false;
   }
