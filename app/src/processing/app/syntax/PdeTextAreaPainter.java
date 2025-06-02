@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.swing.text.BadLocationException;
 
+import processing.app.Preferences;
 import processing.app.Problem;
 import processing.app.ui.Editor;
 import processing.app.ui.Theme;
@@ -231,40 +232,45 @@ public class PdeTextAreaPainter extends TextAreaPainter {
       text = getPdeTextArea().getGutterText(line);
     }
 
-    gfx.setColor(line < textArea.getLineCount() ? gutterTextActiveColor : gutterTextInactiveColor);
-//    if (line >= textArea.getLineCount()) {
-//      //gfx.setColor(new Color(gutterTextColor.getRGB(), );
-//    }
-    int textRight = Editor.LEFT_GUTTER - Editor.GUTTER_MARGIN;
-    int textBaseline = textArea.lineToY(line) + fontMetrics.getHeight();
+    boolean hideLineNumbers = Preferences.getBoolean("pdex.hide.line.nums");
 
-    if (text != null) {
-      if (text.equals(PdeTextArea.BREAK_MARKER)) {
-        drawDiamond(gfx, textRight - 8, textBaseline - 8, 8, 8);
+    if (!hideLineNumbers) {
 
-      } else if (text.equals(PdeTextArea.STEP_MARKER)) {
-        //drawRightArrow(gfx, textRight - 7, textBaseline - 7, 7, 6);
-        drawRightArrow(gfx, textRight - 7, textBaseline - 7.5f, 7, 7);
+      gfx.setColor(line < textArea.getLineCount() ? gutterTextActiveColor : gutterTextInactiveColor);
+  //    if (line >= textArea.getLineCount()) {
+  //      //gfx.setColor(new Color(gutterTextColor.getRGB(), );
+  //    }
+      int textRight = Editor.LEFT_GUTTER - Editor.GUTTER_MARGIN;
+      int textBaseline = textArea.lineToY(line) + fontMetrics.getHeight();
+
+      if (text != null) {
+        if (text.equals(PdeTextArea.BREAK_MARKER)) {
+          drawDiamond(gfx, textRight - 8, textBaseline - 8, 8, 8);
+
+        } else if (text.equals(PdeTextArea.STEP_MARKER)) {
+          //drawRightArrow(gfx, textRight - 7, textBaseline - 7, 7, 6);
+          drawRightArrow(gfx, textRight - 7, textBaseline - 7.5f, 7, 7);
+        }
+      } else {
+        // if no special text for a breakpoint, just show the line number
+        text = String.valueOf(line + 1);
+        //text = makeOSF(String.valueOf(line + 1));
+
+        gfx.setFont(gutterTextFont);
+        //      ((Graphics2D) gfx).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        //                                          RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        // Right-align the text
+        char[] txt = text.toCharArray();
+        int tx = textRight - gfx.getFontMetrics().charsWidth(txt, 0, txt.length);
+        /*
+        // Using 'fm' here because it's relative to the editor text size,
+        // not the numbers in the gutter
+        Utilities.drawTabbedText(new Segment(txt, 0, text.length()),
+                                 (float) tx, (float) textBaseline,
+                                 (Graphics2D) gfx, this, 0);
+         */
+        gfx.drawString(text, tx, textBaseline);
       }
-    } else {
-      // if no special text for a breakpoint, just show the line number
-      text = String.valueOf(line + 1);
-      //text = makeOSF(String.valueOf(line + 1));
-
-      gfx.setFont(gutterTextFont);
-//      ((Graphics2D) gfx).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-//                                          RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-      // Right-align the text
-      char[] txt = text.toCharArray();
-      int tx = textRight - gfx.getFontMetrics().charsWidth(txt, 0, txt.length);
-      /*
-      // Using 'fm' here because it's relative to the editor text size,
-      // not the numbers in the gutter
-      Utilities.drawTabbedText(new Segment(txt, 0, text.length()),
-                               (float) tx, (float) textBaseline,
-                               (Graphics2D) gfx, this, 0);
-       */
-      gfx.drawString(text, tx, textBaseline);
     }
   }
 

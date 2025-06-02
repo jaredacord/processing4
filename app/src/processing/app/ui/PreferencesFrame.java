@@ -77,6 +77,7 @@ public class PreferencesFrame {
   JCheckBox warningsCheckerBox;
   JCheckBox codeCompletionBox;
   JCheckBox importSuggestionsBox;
+  JCheckBox hideLineNumbers;
 
   JComboBox<String> zoomSelectionBox;
   JCheckBox zoomAutoBox;
@@ -396,6 +397,11 @@ public class PreferencesFrame {
     importSuggestionsBox =
       new JCheckBox(Language.text("preferences.suggest_imports"));
 
+    // [ ] Disable line numbers - PDE X
+
+    hideLineNumbers =
+            new JCheckBox(Language.text("preferences.hide_line_numbers"));
+
 
     // [ ] Increase maximum available memory to [______] MB
 
@@ -545,6 +551,7 @@ public class PreferencesFrame {
 
     addRow(codingPanel, errorCheckerBox, warningsCheckerBox);
     addRow(codingPanel, codeCompletionBox, importSuggestionsBox);
+    addRow(codingPanel, hideLineNumbers);
 
     axis.add(codingPanel);
 
@@ -826,6 +833,7 @@ public class PreferencesFrame {
     Preferences.setBoolean("pdex.warningsEnabled", warningsCheckerBox.isSelected());
     Preferences.setBoolean("pdex.completion", codeCompletionBox.isSelected());
     Preferences.setBoolean("pdex.suggest.imports", importSuggestionsBox.isSelected());
+    Preferences.setBoolean("pdex.hide.line.nums", hideLineNumbers.isSelected());
 
     for (Editor editor : base.getEditors()) {
       editor.applyPreferences();
